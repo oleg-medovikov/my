@@ -1,4 +1,4 @@
-"" Last update: 21.12.2020 13:30
+"" Last update: 03.03.2021 01:57
 
 call plug#begin('~/.vim/plugged')
 " On-demand loading
@@ -19,22 +19,19 @@ Plug 'tpope/vim-fugitive'
 Plug 'vim-airline/vim-airline'
 call  plug#end()
 
-"markdown
-"let g:instant_markdown_slow = 1
-"map <C-v> o##  <a name= ><esc>o</a><esc>O
-"map <C-v> I\section{}<enter><esc>
 imap ii <esc>:w<enter>
 imap 33 #
 nnoremap j gj
 nnoremap k gk
-map <C-r> :w<CR>:!python3 %<CR>
-
+map <C-r> :w<CR>:!pypy3 %<CR>
+map <PageUp> <Nop>
+map <PageDown> <Nop>
+imap <PageUp> <Nop>
+imap <PageDown> <Nop>
 set display+=lastline
 
-set nobackup
-set noswapfile
-set noundofile
-
+set directory=$HOME/.vim/tmp/
+set backupdir=$HOME/.vim/tmp/
 
 let g:tex_flavor = 'latex' "Уточняем какой Тех
 let gvimtex_quickfix_mode = 0
@@ -51,10 +48,6 @@ nnoremap <space> za
 vnoremap <space> zf
 syntax on
 
-"map <C-p> I<p><esc>A</p><esc><enter>
-"map <C-p> /#<enter>O</a><esc><enter><enter>
-"map <C-p> o<esc><enter>
-"match Ignore /<p>/
 " сохранение истории  изменений после закрытия окна
 if version >= 700
     set history=64
@@ -79,23 +72,7 @@ set autoread " перечитывать изменённые файлы авто
 set t_Co=256 " использовать больше цветов в терминале
 set confirm " использовать диалоги вместо сообщений об ошибках
 
-set  spell spelllang=ru_yo,en_us
-"" Автоматически перечитывать конфигурацию VIM после сохранения
-autocmd! bufwritepost $MYVIMRC source $MYVIMRC
-
-"" Подсвечивать табы и пробелы в конце строки
-"set ts=4 "количество символов на таб
-"set noet
-"set softtabstop=0
-"set noexpandtab
-
-"set tabstop=5
-"set shiftwidth=0
-"set smarttab
-"set noexpandtab
-"set smartindent
-
-
+set spell spelllang=ru_yo,en_us
 set tabstop=4 
 set shiftwidth=4
 set smarttab
@@ -106,13 +83,6 @@ set autoindent
 " Подсвечиваем все что можно подсвечивать
 let python_highlight_all = 1
 
-"set listchars=eol:¬,tab:>-,trail:~,extends:>,precedes:<,space:•
-set list
-
-"set autoindent
-
-"set smartindent
-" Заменить все пробелы на табуляции %s/\(^\s*\)\@<=    /\t/g
 
 "Проблема красного на красном при spellchecking-е решается такой строкой в .vimrc
 highlight SpellBad ctermfg=Black ctermbg=Red
@@ -120,7 +90,6 @@ au BufWinLeave *.* silent mkview " при закрытии файла сохра
 au BufWinEnter *.* silent loadview " при открытии - восстановить сохранённый
 
 set backspace=indent,eol,start " backspace обрабатывает отступы, концы строк
-set noswapfile " не использовать своп-файл (в него скидываются открытые буферы)
 set browsedir=current
 set visualbell " вместо писка бипером мигать курсором при ошибках ввода
 
@@ -147,25 +116,6 @@ function! MyKeyMapHighlight()
 endfunction
 call MyKeyMapHighlight() " при старте Vim устанавливать цвет статусной строки
 autocmd WinEnter * :call MyKeyMapHighlight() " при смене окна обновлять информацию о раскладках
-
-"ВКЛЮЧЕНИЕ АВТОДОПЛНЕНИЯ ВВОДА (omnifunct)
-autocmd FileType python set omnifunc=pythoncomplete#Complete
-autocmd FileType tt2html set omnifunc=htmlcomplete#CompleteTags
-autocmd FileType javascript set omnifunc=javascriptcomplete#CompleteJS
-autocmd FileType html set omnifunc=htmlcomplete#CompleteTags
-autocmd FileType css set omnifunc=csscomplete#CompleteCSS
-autocmd FileType xml set omnifunc=xmlcomplete#CompleteTags
-autocmd FileType php set omnifunc=phpcomplete#CompletePHP
-autocmd FileType c set omnifunc=ccomplete#Complete
-" Опции автодополнения - включаем только меню с доступными вариантами
-" автодополнения (также, например, для omni completion может быть
-" окно предварительного просмотра).
-set completeopt=menu
-
-"НАСТРОЙКИ ГОРЯЧИХ КЛАВИШ
-" F11 - включить-выключить нумерацию строк
-imap <C-n> <Esc>:set<Space>nu!<CR>a
-nmap <C-n> :set<Space>nu!<CR>
 " F12 - обозреватель файлов (:Ex для стандартного обозревателя,
 " плагин NERDTree - дерево каталогов)
 map <C-f> :NERDTreeToggle<cr>
@@ -206,4 +156,11 @@ autocmd FileType perl call SetPerlConf()
 
 autocmd BufWinLeave *.* mkview
 autocmd BufWinEnter *.* silent loadview
-:
+:"" Автоматически перечитывать конфигурацию VIM после сохранения
+autocmd! bufwritepost $MYVIMRC source $MYVIMRC
+
+autocmd BufEnter *.txt set filetype=text
+autocmd Filetype text setlocal tw=80 wrapmargin=0
+autocmd Filetype text setlocal colorcolumn=81
+autocmd Filetype text setlocal nolist noai nosi nocindent 
+autocmd Filetype text setlocal expandtab ts=3 sw=3
