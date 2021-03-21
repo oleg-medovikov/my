@@ -4,15 +4,18 @@ set $mod Mod4
 
 #exec xrdb ~/.Xdefaults
 
-output "*" background /home/oleg/.config/sway/horogrey.jpg fill
+output "*" background /home/oleg/.config/sway/arch.png fill
 
 input "type:keyboard" {
     xkb_layout us,ru
     xkb_options grp:alt_shift_toggle
             }
 
-bindsym $mod+F11 exec brightness-
-bindsym $mod+F12 exec brightness+
+bindsym $mod+F11 exec brightnessctl set 5%-
+bindsym $mod+F12 exec brightnessctl set 5%+
+
+#bindsym $mod+F11 exec brightness-
+#bindsym $mod+F12 exec brightness+
 
 bindsym $mod+Shift+r reload 
 bindsym $mod+Shift+e exit 
@@ -34,9 +37,11 @@ bindsym --to-code $mod+l exac logout
 bindsym --to-code $mod+q kill
 
 #bindsym --to-code $mod+w exec firefox
-bindsym --to-code $mod+w exec google-chrome-stable
-bindsym --to-code $mod+z exec zencad
+bindsym --to-code $mod+w exec chromium
+#bindsym --to-code $mod+w exec google-chrome-stable
+bindsym --to-code $mod+z exec python -m  zencad
 
+#bindsym --to-code $mod+z exec env WINIT_UNIX_BACKEND=x11 pytnon -m zencad
 
 # start a terminal
 #bindsym --to-code $mod+t exec urxvt
@@ -72,7 +77,7 @@ floating_modifier $mod normal
 # take a screenshot
 #bindsym $mod+b exec  grim
 
-bindsym $mod+b exec grim
+bindsym $mod+b exec scrot
 
 
 bindsym --to-code $mod+f fullscreen
@@ -128,8 +133,9 @@ bindsym $mod+Alt+Down      resize shrink height 10 px or 10 ppt
 
 
 # music experiance -----------
-bindsym Ctrl+Down  exec pactl set-sink-volume $(pacmd list-sinks |awk '/* index:/{print $3}') -5%
-bindsym Ctrl+Up    exec pactl set-sink-volume $(pacmd list-sinks |awk '/* index:/{print $3}') +5%
+#bindsym Ctrl+Down  exec pactl set-sink-volume $(pacmd list-sinks |awk '/* index:/{print $3}') -5%
+#bindsym Ctrl+Up    exec pactl set-sink-volume $(pacmd list-sinks |awk '/* index:/{print $3}') +5%
 #----------
-
+bindsym Ctrl+Up exec "amixer -q sset Master,0 10+ unmute"
+bindsym Ctrl+Down exec "amixer -q sset Master,0 10- unmute"
 
