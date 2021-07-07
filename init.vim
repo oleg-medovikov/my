@@ -30,6 +30,10 @@ let mapleader=" "
 imap ii <esc>:w<CR>
 imap 33 #
 imap -- —
+imap ll <Right>
+imap hh <Left>
+imap LL <Esc>A
+imap HH <Esc>I
 nnoremap j gj
 nnoremap k gk
 nnoremap <leader>s :source ~/.config/nvim/init.vim<CR>
@@ -99,3 +103,10 @@ let g:tex_fold_enabled = 1
 set foldmethod=expr
 "nnoremap <a><a> za
 "vnoremap <a><a> zf
+
+
+filetype indent on
+autocmd BufEnter *.md set filetype=markdown
+autocmd Filetype markdown setlocal tw=80 wrapmargin=0
+autocmd Filetype markdown setlocal colorcolumn=81
+autocmd Filetype markdown setlocal nolist noai
